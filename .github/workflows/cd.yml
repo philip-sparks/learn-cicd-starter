@@ -44,7 +44,7 @@ jobs:
 
       # Step 7: Configure Docker to use gcloud as a credential helper for Artifact Registry
       - name: 'Configure Docker authentication with GCP'
-        run: gcloud auth configure-docker REGION-docker.pkg.dev
+        run: gcloud auth configure-docker us-east4-docker.pkg.dev
 
       # Step 8: Build and push Docker image to Google Artifact Registry
       - name: 'Build and push Docker image'
