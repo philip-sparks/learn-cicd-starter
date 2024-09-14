@@ -24,3 +24,25 @@ jobs:
       # Step 3: Build the app using the buildprod.sh script
       - name: Build the app
         run: scripts/buildprod.sh
+
+      # Step 4: Authenticate with GCP
+      - name: 'Authenticate with GCP'
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+      # Step 5: Set up Google Cloud SDK (gcloud)
+      - name: 'Set up Cloud SDK'
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: '${{ secrets.GCP_PROJECT_ID }}'
+          install_components: 'docker'
+
+      # Step 6: Verify gcloud CLI is set up
+      - name: 'Use gcloud CLI'
+        run: gcloud info
+
+      # Step 7: Build and push Docker image to Google Artifact Registry
+      - name: 'Build and push Docker image'
+        run: gcloud builds submit --tag us-east4-docker.pkg.dev/notely-435521/notely-ar-repo/notely:latest .
